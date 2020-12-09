@@ -1,0 +1,187 @@
+<mat-form-field>
+  <mat-label>Pesquisar</mat-label>
+  <input matInput (keyup)="applyFilter($event)" #input>
+</mat-form-field>
+
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+  <ng-container matColumnDef="procedimento">
+    <th mat-header-cell *matHeaderCellDef> Procedimento </th>
+    <td mat-cell *matCellDef="let asq"> {{asq.codproc}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="idade">
+    <th mat-header-cell *matHeaderCellDef> Idade </th>
+    <td mat-cell *matCellDef="let asq"> {{asq.idade}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="sexo">
+    <th mat-header-cell *matHeaderCellDef> Sexo </th>
+    <td mat-cell *matCellDef="let asq"> {{asq.sexo == 1 ? 'Feminino' : 'Masculino'}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="permitido">
+    <th mat-header-cell *matHeaderCellDef> Permitido </th>
+    <td mat-cell *matCellDef="let asq"> {{asq.perm == 1 ? 'Sim' : 'Não'}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="acoes">
+    <th mat-header-cell *matHeaderCellDef> Ações </th>
+    <td mat-cell *matCellDef="let asq" class="text-left">
+      <button type="button" class="btn btn-danger waves-effect" title="Excluir" (click)="del(asq.id)">
+        <span class="zmdi zmdi-delete"></span> Deletar procedimento
+      </button>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+
+<div class="row">
+  <div class="col-md-12 text-center" style="padding-top: 20px;">
+    <button type="button" class="btn btn-success waves-effect" title="Editar" data-target="#modalEditar"
+      (click)="abrirModalIncluir()">
+      <span class="zmdi zmdi-check"></span> Incluir procedimento
+    </button>
+    &nbsp;
+    <button type="button" class="btn btn-warning waves-effect" title="Editar" data-target="#modalEditar"
+      (click)="abrirModalEditar()">
+      <span class="zmdi zmdi-edit"></span> Editar procedimentos
+    </button>
+  </div>
+</div>
+
+<div class="modal fade" bsModal #modalEditar="bs-modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="col-md-6">
+          <h4 class="modal-title">Editar autorizações</h4>
+        </div>
+        <div class="col-md-6 text-right">
+          <button type="button" class="btn btn-link" (click)="modalEditar.hide();">X</button>
+        </div>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="table-responsive col-md-12">
+            <table class="table table-bordered table-hover table-custom">
+              <thead>
+                <tr class="headerTable">
+                  <th class="text-center">
+                    Procedimento
+                  </th>
+                  <th class="text-center">
+                    Idade
+                  </th>
+                  <th class="text-center">
+                    Sexo
+                  </th>
+                  <th class="text-center">
+                    Permitido
+                  </th>
+                  <th style="min-width: 115px">Ações</th>
+                </tr>
+              </thead>
+              <tbody>
+              <tbody>
+                <tr *ngFor="let dados of asq">
+                  <td class="text-primary text-center">
+                    <input type="number" [(ngModel)]="dados.codproc" class="form-control" #codproc="ngModel">
+                  </td>
+                  <td class="text-primary text-center">
+                    <input type="number" [(ngModel)]="dados.idade" class="form-control" #idade="ngModel">
+                  </td>
+                  <td class="text-primary text-center">
+                    <select class="form-control" [(ngModel)]="dados.sexo" style="width: auto" #sexo="ngModel">
+                      <option value="0">Masculino</option>
+                      <option value="1">Feminino</option>
+                    </select>
+                  </td>
+                  <td class="text-primary text-center">
+                    <select class="form-control" [(ngModel)]="dados.perm" style="width: auto" #perm="ngModel">
+                      <option value="0">Não</option>
+                      <option value="1">Sim</option>
+                    </select>
+                  </td>
+                  <td class="btn-tables">
+                    <input type="button" value="Atualizar" class="btn btn-success btn-sm"
+                      (click)="update(dados.codproc, dados.idade, dados.sexo, dados.perm, dados.id)">
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" bsModal #modalIncluir="bs-modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="col-md-6">
+          <h4 class="modal-title">Incluir procedimento</h4>
+        </div>
+        <div class="col-md-6 text-right">
+          <button type="button" class="btn btn-link" (click)="modalIncluir.hide(ngOnInit());">X</button>
+        </div>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="table-responsive col-md-12">
+            <form #f="ngForm" name="theForm" (submit)="add(f)">
+              <table class="table table-bordered table-hover table-custom">
+                <thead>
+                  <tr class="headerTable">
+                    <th class="text-center">
+                      Procedimento
+                    </th>
+                    <th class="text-center">
+                      Idade
+                    </th>
+                    <th class="text-center">
+                      Sexo
+                    </th>
+                    <th class="text-center">
+                      Permitido
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                <tbody>
+                  <tr class="bodyTable">
+                    <td class="text-primary text-center">
+                      <input type="number" class="form-control" name="codproc" [(ngModel)]="asq1.codproc"
+                        #asq1codproc="ngModel">
+                    </td>
+                    <td class="text-primary text-center">
+                      <input type="number" class="form-control" name="idade" [(ngModel)]="asq1.idade"
+                        #asq1idade="ngModel">
+                    </td>
+                    <td class="text-primary text-center">
+                      <select class="form-control" name="sexo" [(ngModel)]="asq1.sexo" #asq1sexo="ngModel">
+                        <option value="0">Masculino</option>
+                        <option value="1">Feminino</option>
+                      </select>
+                    </td>
+                    <td class="text-primary text-center">
+                      <select class="form-control" name="perm" [(ngModel)]="asq1.perm" #perm="ngModel">
+                        <option value="0">Não</option>
+                        <option value="1">Sim</option>
+                      </select>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </form>
+            <button type="button" value="Incluir" class="btn btn-success btn-sm"
+              (click)="add(f, asq1.codproc, asq1.idade, asq1.sexo, asq1.perm)">Incluir</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,33 @@
+<div class="row">
+  <div class="col-md-12 text-center">
+    <h3 style="font-weight: bold;">VERIFIQUE A AUTORIZAÇÃO DO PROCEDIMENTO</h3>
+    <div class="example-container">
+      <h4 style="font-weight: bold;">Código do procedimento</h4>
+      <mat-form-field appearance="fill" style="width: 30%; font-weight: bold;">
+        <mat-label>Selecione um procedimento</mat-label>
+        <mat-select [(ngModel)]="selec.id">
+          <mat-option *ngFor="let cod of asq" [value]="cod.id">
+            {{cod.codproc}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <h4 style="font-weight: bold;">Idade</h4>
+      <mat-form-field appearance="fill" style="width: 30%; font-weight: bold;">
+        <mat-label>Digite um idade</mat-label>
+        <input matInput type="number" [(ngModel)]="selec.inputidade">
+      </mat-form-field>
+      <br>
+      <h4 style="font-weight: bold;">Sexo</h4>
+      <mat-form-field appearance="fill" style="width: 30%; font-weight: bold;">
+        <mat-label>Selecione um sexo</mat-label>
+        <mat-select [(ngModel)]="selec.selectsexo">
+          <mat-option value="0">Masculino</mat-option>
+          <mat-option value="1">Feminino</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <br>
+    </div>
+
+    <button type="button" value="Verificar" class="btn btn-success btn-lg" style="margin-bottom: 20px;" (click)="search()">Verificar</button>
+  </div>
+</div>

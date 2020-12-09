@@ -1,0 +1,9 @@
+.logo {
+    background:
+        url('../../assets/logo_asq.png')
+        no-repeat
+        left center;
+    display: flex;
+    padding-left: 91px;
+    margin-left: 0px !important;
+}
